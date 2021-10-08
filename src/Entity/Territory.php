@@ -85,7 +85,7 @@ class Territory
     private $upuShortcut;
 
     /**
-     * @ORM\Column(type="string", length=2, nullable=true)
+     * @ORM\Column(type="string", length=5, nullable=true)
      */
     private $iso3166;
 

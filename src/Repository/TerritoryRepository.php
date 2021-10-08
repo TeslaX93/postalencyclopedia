@@ -6,12 +6,6 @@ use App\Entity\Territory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @method Territory|null find($id, $lockMode = null, $lockVersion = null)
- * @method Territory|null findOneBy(array $criteria, array $orderBy = null)
- * @method Territory[]    findAll()
- * @method Territory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class TerritoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -19,35 +13,30 @@ class TerritoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Territory::class);
     }
 
-    // /**
-    //  * @return Territory[] Returns an array of Territory objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param array $options
+     */
+    public function getNames(array $options = []): array
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+        $territories =  $this->createQueryBuilder('t')
+            ->select('t.name', 't.iso3166')
             ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+            ->getResult();
 
-    /*
-    public function findOneBySomeField($value): ?Territory
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+        $territoriesList = [];
+        foreach ($territories as $territory) {
+            $territoriesList[$territory['iso3166']] = $territory['name'];
+        }
 
+        return $territoriesList;
+    }
+
+
+    /**
+     * @param Territory $territory
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function save(Territory $territory): void
     {
         $em = $this->getEntityManager();

@@ -16,9 +16,12 @@ class HomepageController extends AbstractController
 
     private TerritoryService $territoryService;
 
-    public function __construct(TerritoryService $territoryService)
+    private TranslatorInterface $translator;
+
+    public function __construct(TerritoryService $territoryService, TranslatorInterface $translator)
     {
         $this->territoryService = $territoryService;
+        $this->translator = $translator;
     }
 
     /**
@@ -41,7 +44,6 @@ class HomepageController extends AbstractController
         } else {
             return $this->redirectToRoute('homepage', ['_locale' => 'en']);
         }
-        return new Response("Something went wrong.");
     }
 
     /**
@@ -52,10 +54,9 @@ class HomepageController extends AbstractController
     public function homepage(Request $request): Response
     {
         $countries = $this->territoryService->getTerritories();
-        //dd($countries);
 
         return $this->render('homepage/index.html.twig', [
-            'controller_name' => 'HomepageController',
+            'territories' => $countries,
         ]);
     }
 

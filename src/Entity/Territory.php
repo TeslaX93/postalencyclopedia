@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TerritoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,116 +23,97 @@ class Territory
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nameFr;
+    private string $nameFr;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nameLocal;
+    private string $nameLocal;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $fullname;
+    private string $fullname;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $fullnameFr;
+    private string $fullnameFr;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $fullnameLocal;
+    private string $fullnameLocal;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDependend;
+    private bool $isDepended;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isRecognized;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $templateFormat;
+    private bool $isRecognized;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $postalCodeFormat;
+    private ?string $templateFormat;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $addressFormat;
+    private ?string $postalCodeFormat;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $addressFormat;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $addressLocation;
+    private string $addressLocation;
 
     /**
      * @ORM\Column(type="string", length=3, nullable=true)
      */
-    private $upuShortcut;
+    private ?string $upuShortcut;
 
     /**
      * @ORM\Column(type="string", length=5, nullable=true)
      */
-    private $iso3166;
+    private ?string $iso3166;
 
     /**
      * @ORM\Column(type="string", length=32, nullable=true)
      */
-    private $emoji;
+    private ?string $emoji;
 
     /**
-     * @ORM\OneToMany(targetEntity=Provider::class, mappedBy="territory")
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $slug;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Provider::class, mappedBy="territories")
      */
     private $providers;
 
-    public function __construct(
-        string $name,
-        string $nameFr,
-        string $nameLocal,
-        string $fullname,
-        string $fullnameFr,
-        string $fullnameLocal,
-        bool $isDependend,
-        bool $isRecognized,
-        string $templateFormat,
-        ?string $postalCodeFormat,
-        ?string $addressFormat,
-        string $addressLocation,
-        ?string $upuShortcut,
-        ?string $iso3166,
-        ?string $emoji
-    ) {
+    /**
+     * @ORM\OneToMany(targetEntity=Province::class, mappedBy="territory", orphanRemoval=true)
+     */
+    private $provinces;
+
+    public function __construct()
+    {
         $this->providers = new ArrayCollection();
-        $this->name = $name;
-        $this->nameFr = $nameFr;
-        $this->nameLocal = $nameLocal;
-        $this->fullname = $fullname;
-        $this->fullnameFr = $fullnameFr;
-        $this->fullnameLocal = $fullnameLocal;
-        $this->isDependend = $isDependend;
-        $this->isRecognized = $isRecognized;
-        $this->templateFormat = $templateFormat;
-        $this->postalCodeFormat = $postalCodeFormat;
-        $this->addressFormat = $addressFormat;
-        $this->addressLocation = $addressLocation;
-        $this->upuShortcut = $upuShortcut;
-        $this->iso3166 = $iso3166;
-        $this->emoji = $emoji;
+        $this->provinces = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,14 +193,14 @@ class Territory
         return $this;
     }
 
-    public function getIsDependend(): ?bool
+    public function getIsDepended(): ?bool
     {
-        return $this->isDependend;
+        return $this->isDepended;
     }
 
-    public function setIsDependend(bool $isDependend): self
+    public function setIsDepended(bool $isDepended): self
     {
-        $this->isDependend = $isDependend;
+        $this->isDepended = $isDepended;
 
         return $this;
     }
@@ -240,7 +222,7 @@ class Territory
         return $this->templateFormat;
     }
 
-    public function setTemplateFormat(string $templateFormat): self
+    public function setTemplateFormat(?string $templateFormat): self
     {
         $this->templateFormat = $templateFormat;
 
@@ -307,6 +289,18 @@ class Territory
         return $this;
     }
 
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
     /**
      * @return mixed
      */
@@ -323,6 +317,12 @@ class Territory
         $this->addressFormat = $addressFormat;
     }
 
+
+    public function __toString(): string
+    {
+        return $this->emoji . ' ' . $this->name;
+    }
+
     /**
      * @return Collection|Provider[]
      */
@@ -335,7 +335,7 @@ class Territory
     {
         if (!$this->providers->contains($provider)) {
             $this->providers[] = $provider;
-            $provider->setTerritory($this);
+            $provider->addTerritory($this);
         }
 
         return $this;
@@ -344,9 +344,36 @@ class Territory
     public function removeProvider(Provider $provider): self
     {
         if ($this->providers->removeElement($provider)) {
+            $provider->removeTerritory($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Province[]
+     */
+    public function getProvinces(): Collection
+    {
+        return $this->provinces;
+    }
+
+    public function addProvince(Province $province): self
+    {
+        if (!$this->provinces->contains($province)) {
+            $this->provinces[] = $province;
+            $province->setTerritory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProvince(Province $province): self
+    {
+        if ($this->provinces->removeElement($province)) {
             // set the owning side to null (unless already changed)
-            if ($provider->getTerritory() === $this) {
-                $provider->setTerritory(null);
+            if ($province->getTerritory() === $this) {
+                $province->setTerritory(null);
             }
         }
 

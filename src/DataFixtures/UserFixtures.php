@@ -23,7 +23,7 @@ class UserFixtures extends Fixture
         $user->setEmail('test@postalencyclopedia.org');
         $user->setRoles(['ROLE_USER']);
         $user->setPassword($this->passwordHasher->hashPassword($user, "test123"));
-
+        $manager->persist($user);
         $manager->flush();
     }
 }

@@ -37,9 +37,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $password;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
-    private string $locale;
+    private ?string $locale;
 
     public function getId(): ?int
     {

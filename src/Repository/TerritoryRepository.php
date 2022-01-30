@@ -71,6 +71,20 @@ class TerritoryRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param array $options
+     * @return array
+     */
+    public function getAllDataForTerritory(string $iso, array $options = []): array
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.iso3166 = :iso')
+            ->setParameter('iso',strtoupper($iso))
+            ->getQuery()
+            ->getResult();
+    }
+    
 
     /**
      * @param Territory $territory

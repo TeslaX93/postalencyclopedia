@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repository\TerritoryRepository;
+use PHPUnit\Util\Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TerritoryService
@@ -27,6 +28,14 @@ class TerritoryService
         sort($translatedTerritories);
 
         return $translatedTerritories;
+    }
 
+    public function getCountryInfos(string $countryIso, array $options = []): array
+    {
+        $territory = $this->territoryRepository->getAllDataForTerritory($countryIso);
+        if(!$territory) {
+            throw new Exception("Page not found",404);
+        }
+        return $territory;
     }
 }

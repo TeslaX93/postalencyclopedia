@@ -48,7 +48,9 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/intl-extra": "^3.3",
         "twig/twig": "^2.12|^3.0",
-        "umpirsky/country-list": "^2.0"
+        "umpirsky/country-list": "^2.0",
+      "ext-pcntl": "*",
+      "ext-curl": "*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",

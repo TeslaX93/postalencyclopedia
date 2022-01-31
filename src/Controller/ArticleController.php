@@ -12,20 +12,27 @@ class ArticleController extends AbstractController
 {
     private TerritoryService $territoryService;
 
-    public function __construct(TerritoryService $territoryService) {
+    public function __construct(TerritoryService $territoryService)
+    {
         $this->territoryService = $territoryService;
     }
 
     /**
      * @Route("/{_locale}/country/{slug}", name="article", requirements={"_locale": "%app.supported_locales%"})
-     * @param string $slug
-     * @return Response
+     * @param                              string $slug
+     * @return                             Response
      */
     public function index(string $slug): Response
     {
-        dd($this->territoryService->getCountryInfos('pl'));
-        return $this->render('article/index.html.twig', [
-            'controller_name' => 'ArticleController',
-        ]);
+        $countryInfo = $this->territoryService->getCountryInfos('pl');
+        $countries = $this->territoryService->getTerritories();
+
+
+        return $this->render(
+            'article/index.html.twig', [
+                'territories' => $countries,
+                'countryInfo' => $countryInfo
+            ]
+        );
     }
 }

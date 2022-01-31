@@ -16,7 +16,6 @@ final class CKEditorField implements FieldInterface
             ->setProperty($propertyName)
             ->setLabel($label)
             ->setTemplatePath('@FOSCKEditor/Form/ckeditor_widget.html.twig')
-            ->setFormType(CKEditorType::class)
-            ;
+            ->setFormType(CKEditorType::class);
     }
 }

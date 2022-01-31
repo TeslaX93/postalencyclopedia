@@ -11,8 +11,10 @@ class MessengerController extends AbstractController
     #[Route('/messenger', name: 'messenger')]
     public function index(): Response
     {
-        return $this->render('messenger/index.html.twig', [
+        return $this->render(
+            'messenger/index.html.twig', [
             'controller_name' => 'MessengerController',
-        ]);
+            ]
+        );
     }
 }

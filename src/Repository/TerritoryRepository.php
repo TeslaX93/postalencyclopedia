@@ -60,7 +60,7 @@ class TerritoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param array $options
+     * @param  array $options
      * @return array
      */
     public function getNames(array $options = []): array
@@ -72,7 +72,7 @@ class TerritoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param array $options
+     * @param  array $options
      * @return array
      */
     public function getAllDataForTerritory(string $iso, array $options = []): array
@@ -80,14 +80,14 @@ class TerritoryRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->select('t')
             ->where('t.iso3166 = :iso')
-            ->setParameter('iso',strtoupper($iso))
+            ->setParameter('iso', strtoupper($iso))
             ->getQuery()
             ->getResult();
     }
     
 
     /**
-     * @param Territory $territory
+     * @param  Territory $territory
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

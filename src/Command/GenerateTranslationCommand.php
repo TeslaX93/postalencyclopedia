@@ -30,8 +30,7 @@ class GenerateTranslationCommand extends Command
         $this
             ->addArgument('from', InputArgument::REQUIRED, 'Translate from')
             ->addArgument('to', InputArgument::REQUIRED, 'Translate to')
-            ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Don\'nt save')
-        ;
+            ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Don\'nt save');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -44,11 +43,11 @@ class GenerateTranslationCommand extends Command
         $dir = __DIR__."/../../translations/";
         $files = scandir($dir);
         foreach($files as $file) {
-            if(str_contains($file,'.'.strtolower($to).'.')) {
+            if(str_contains($file, '.'.strtolower($to).'.')) {
                 unlink($dir.$file);
                 $io->writeln('Deleted file '.$file);
             }
-            if(str_contains($file,'.'.strtolower($from).'.')) {
+            if(str_contains($file, '.'.strtolower($from).'.')) {
                 $translationFileContent = file($dir.$file);
                 dd($translationFileContent);
                 // if not, get text after :

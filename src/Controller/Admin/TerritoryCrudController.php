@@ -14,7 +14,7 @@ class TerritoryCrudController extends AbstractCrudController
         return Territory::class;
     }
 
-/*
+    /*
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -23,5 +23,5 @@ class TerritoryCrudController extends AbstractCrudController
 
         ];
     }
-*/
+    */
 }

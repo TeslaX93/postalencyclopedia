@@ -19,8 +19,7 @@ class AddressingDownloaderCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addOption('force', null, InputOption::VALUE_NONE, 'Redownload all pdfs')
-        ;
+            ->addOption('force', null, InputOption::VALUE_NONE, 'Redownload all pdfs');
     }
 
     private function http_response($url, $status = null, $wait = 3): bool
@@ -31,35 +30,31 @@ class AddressingDownloaderCommand extends Command
             // we are the parent
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_HEADER, TRUE);
-            curl_setopt($ch, CURLOPT_NOBODY, TRUE); // remove body
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_HEADER, true);
+            curl_setopt($ch, CURLOPT_NOBODY, true); // remove body
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $head = curl_exec($ch);
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
-            if(!$head)
-            {
-                return FALSE;
-            }
+        if(!$head) {
+            return false;
+        }
 
-            if($status === null)
-            {
-                if($httpCode < 400)
-                {
-                    return TRUE;
-                }
-                else
-                {
-                    return FALSE;
-                }
+        if($status === null) {
+            if($httpCode < 400) {
+                return true;
             }
-            elseif($status == $httpCode)
+            else
             {
-                return TRUE;
+                return false;
             }
+        }
+        elseif($status == $httpCode) {
+            return true;
+        }
 
-            return FALSE;
+            return false;
             //pcntl_wait($status); //Protect against Zombie children
 
     }
@@ -93,11 +88,11 @@ class AddressingDownloaderCommand extends Command
             'taa', 'tun', 'tur', 'tkm', 'tca', 'tuv', 'uga', 'ukr', 'are', 'gbr', 'usa', 'ury', 'uzb', 'vut', 'vat',
             'ven', 'vnm', 'wlf', 'yem', 'zmb', 'zwe'];
         $ch = curl_init();
-        curl_setopt($ch,CURLOPT_FAILONERROR,true);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
         foreach($codes as $code) {
             $pdfurl = $url[0].$code.$url[1];
             if($this->http_response($pdfurl)) {
-                curl_setopt($ch,CURLOPT_URL,$pdfurl);
+                curl_setopt($ch, CURLOPT_URL, $pdfurl);
                 curl_exec($ch);
             }
         }

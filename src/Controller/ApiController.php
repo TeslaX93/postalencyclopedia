@@ -11,8 +11,10 @@ class ApiController extends AbstractController
     #[Route('/api', name: 'api')]
     public function index(): Response
     {
-        return $this->render('api/index.html.twig', [
+        return $this->render(
+            'api/index.html.twig', [
             'controller_name' => 'ApiController',
-        ]);
+            ]
+        );
     }
 }

@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @method string getUserIdentifier()
+ * @method                                            string getUserIdentifier()
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -31,7 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var                       string The hashed password
      * @ORM\Column(type="string")
      */
     private string $password;

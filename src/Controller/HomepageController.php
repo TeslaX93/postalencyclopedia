@@ -26,8 +26,8 @@ class HomepageController extends AbstractController
 
     /**
      * @Route("/", name="unlocalised_homepage")
-     * @param Request $request
-     * @return Response
+     * @param      Request $request
+     * @return     Response
      */
     public function index(Request $request): Response
     {
@@ -48,24 +48,28 @@ class HomepageController extends AbstractController
 
     /**
      * @Route("/{_locale}/home", name="homepage", requirements={"_locale": "%app.supported_locales%"})
-     * @param Request $request
-     * @return Response
+     * @param                    Request $request
+     * @return                   Response
      */
     public function homepage(Request $request): Response
     {
         $countries = $this->territoryService->getTerritories();
 
-        return $this->render('homepage/index.html.twig', [
+        return $this->render(
+            'homepage/index.html.twig', [
             'territories' => $countries,
-        ]);
+            ]
+        );
     }
 
     public function search(): Response
     {
         $results = [];
 
-        return $this->render('homepage/search.html.twig', [
+        return $this->render(
+            'homepage/search.html.twig', [
             'results' => $results
-        ]);
+            ]
+        );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Model\CountryBar;
 use App\Repository\TerritoryRepository;
 use PHPUnit\Util\Exception;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -30,12 +31,21 @@ class TerritoryService
         return $translatedTerritories;
     }
 
-    public function getCountryInfos(string $countryIso, array $options = []): array
+    public function getCountryInfos(string $countryIso, array $options = []): CountryBar
     {
         $territory = $this->territoryRepository->getAllDataForTerritory($countryIso);
+
         if(!$territory) {
-            throw new Exception("Page not found",404);
+            throw new Exception("Page not found", 404);
         }
-        return $territory;
+
+        return new CountryBar(
+            $territory[0]->getEmoji(),
+            $territory[0]->getName(),
+            $territory[0]->getNameLocal(),
+            $territory[0]->getTemplateFormat(),
+            $territory[0]->getPostalCodeFormat(),
+            [$territory[0]->getProviders()[0]->getName()]
+        );
     }
 }

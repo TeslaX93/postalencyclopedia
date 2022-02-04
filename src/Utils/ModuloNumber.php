@@ -15,11 +15,19 @@ class ModuloNumber
         $this->modulo = $modulo;
     }
 
+    /**
+     * @param  int ...$numbers
+     * @return void
+     */
     public function add(int ...$numbers)
     {
         $this->number = array_sum($numbers)%$this->modulo;
     }
 
+    /**
+     * @param  int ...$numbers
+     * @return void
+     */
     public function substract(int ...$numbers)
     {
         foreach($numbers as $n) {
@@ -28,6 +36,10 @@ class ModuloNumber
         $this->number %= $this->modulo;
     }
 
+    /**
+     * @param  int ...$numbers
+     * @return void
+     */
     public function multiply(int ...$numbers)
     {
         foreach($numbers as $n) {
@@ -36,6 +48,10 @@ class ModuloNumber
         $this->number %= $this->modulo;
     }
 
+    /**
+     * @param  int $divisor
+     * @return void
+     */
     public function divide(int $divisor)
     {
         if($divisor != 0) {

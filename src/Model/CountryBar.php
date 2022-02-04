@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use App\Entity\Provider;
+
 class CountryBar
 {
     private string $emoji;
@@ -14,7 +16,7 @@ class CountryBar
 
     private string $postalCodeFormat;
 
-    private array $providersName;
+    private array $provider;
 
     public function __construct(
         string $emoji,
@@ -22,14 +24,14 @@ class CountryBar
         string $nameLocal,
         string $templateFormat,
         string $postalCodeFormat,
-        array $providersName
+        array $provider
     ) {
         $this->emoji = $emoji;
         $this->name = $name;
         $this->nameLocal = $nameLocal;
         $this->templateFormat = $templateFormat;
         $this->postalCodeFormat = $postalCodeFormat;
-        $this->providersName = $providersName;
+        $this->provider = $provider;
     }
 
     /**
@@ -73,11 +75,11 @@ class CountryBar
     }
 
     /**
-     * @return array
+     * @return Provider[]
      */
-    public function getProvidersName(): array
+    public function getProvider(): array
     {
-        return $this->providersName;
+        return $this->provider;
     }
 
 }

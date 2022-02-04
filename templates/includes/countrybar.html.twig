@@ -1,0 +1,25 @@
+<div style="float: right;">
+    <table class="table table-striped">
+        <tr>
+            <td><b>{{ countryInfo.name }}</b></td>
+        </tr>
+        <tr>
+            <td>{{ countryInfo.emoji }}</td>
+        </tr>
+        <tr>
+            <td>{{ countryInfo.nameLocal }}</td>
+        </tr>
+            {% for p in countryInfo.provider %}
+                <tr>
+                    <td>{{ p.address.company }}<br />
+                    {{ p.address.street }} {{ p.address.streetNumber }} {% if p.address.apartmentNumber %}{{ p.address.apartmentNumber }}{% endif %}<br />
+                    {% if p.address.PoBoxNumber %} {{ p.address.PoBoxNumber }}<br />{% endif %}
+                    {{ p.address.postalCode }} {{ p.address.city|upper}}<br />
+                    {% if p.address.province %} {{ p.address.province }}<br />{% endif %}
+                    {{ p.address.country|upper }}<br />
+                        TODO - format it with countryinfo.templateformat!
+                    </td>
+                </tr>
+            {% endfor %}
+    </table>
+</div>

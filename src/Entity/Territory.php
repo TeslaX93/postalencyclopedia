@@ -320,7 +320,7 @@ class Territory
 
     public function __toString(): string
     {
-        return $this->emoji . ' ' . $this->name;
+        return $this->name;
     }
 
     /**

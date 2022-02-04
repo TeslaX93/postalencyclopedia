@@ -45,7 +45,7 @@ class TerritoryService
             $territory[0]->getNameLocal(),
             $territory[0]->getTemplateFormat(),
             $territory[0]->getPostalCodeFormat(),
-            [$territory[0]->getProviders()[0]->getName()]
+            $territory[0]->getProviders()->toArray()
         );
     }
 }

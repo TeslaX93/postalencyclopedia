@@ -6,8 +6,10 @@
     "require": {
         "php": ">=7.4",
         "ext-ctype": "*",
+        "ext-curl": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-pcntl": "*",
         "aternus/geonames-client": "^2.2",
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/annotations": "^1.0",
@@ -18,6 +20,7 @@
         "friendsofsymfony/ckeditor-bundle": "^2.3",
         "fzaninotto/faker": "^1.5",
         "phpdocumentor/reflection-docblock": "^5.2",
+        "scn/deepl-api-connector": "^3.0",
         "sensio/framework-extra-bundle": "^5.1",
         "stichoza/google-translate-php": "^4.1",
         "symfony/asset": "5.3.*",
@@ -48,9 +51,7 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/intl-extra": "^3.3",
         "twig/twig": "^2.12|^3.0",
-        "umpirsky/country-list": "^2.0",
-      "ext-pcntl": "*",
-      "ext-curl": "*"
+        "umpirsky/country-list": "^2.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",

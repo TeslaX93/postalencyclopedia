@@ -24,8 +24,8 @@ class ArticleController extends AbstractController
      */
     public function index(string $slug): Response
     {
-        $countryInfo = $this->territoryService->getCountryInfos('pl');
-        $countries = $this->territoryService->getTerritories();
+        $countryInfo = $this->territoryService->getCountryInfos($slug); //@TODO: change it to real slug
+        $countries = $this->territoryService->getTerritories(['default' => $slug]);
 
 
         return $this->render(

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class MessengerService
+class MessageService
 {
     public const MAIL_STATUSES = "📫📪📭📬";
 }

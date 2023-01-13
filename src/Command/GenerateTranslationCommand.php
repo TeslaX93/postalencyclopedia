@@ -16,7 +16,7 @@ class GenerateTranslationCommand extends Command
 {
     private TerritoryRepository $territoryRepository;
 
-    public function __construct(string $name = null, TerritoryRepository $territoryRepository)
+    public function __construct(TerritoryRepository $territoryRepository,string $name = null)
     {
         $this->territoryRepository = $territoryRepository;
         parent::__construct($name);

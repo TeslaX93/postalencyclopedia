@@ -62,6 +62,22 @@ class HomepageController extends AbstractController
         );
     }
 
+    /**
+     * @Route("/{_locale}/postcards", name="postcards")
+     * @param                    Request $request
+     * @return                   Response
+     */
+    public function postcard(Request $request): Response
+    {
+        return $this->render(
+            'homepage/freepostcard.html.twig', []
+        );
+    }
+
+    /**
+     * @Route("/search", name="unlocalised_homepage")
+     * @return     Response
+     */
     public function search(): Response
     {
         $results = [];
@@ -72,4 +88,6 @@ class HomepageController extends AbstractController
             ]
         );
     }
+
+
 }

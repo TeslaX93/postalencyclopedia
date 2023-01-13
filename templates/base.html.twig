@@ -18,23 +18,22 @@
     <div class="row">
         <div class="col-sm-2 col-xs-12">
             {% if app.request.locale == 'jp' %}
-            🏣
+                <h1 id="logo">🏣</h1>
             {% else %}
-            🏤
+                <h1 id="logo">📯</h1>
             {% endif %}
             <br />
-            PostalEncyclopedia<br />
-            <select class="form-control">
+            <h2>PostalEncyclopedia</h2>
+            <input list="territories" class="form-control" placeholder="Select a country or territory..."/>
+            <datalist id="territories">
                 {% for code,territory in territories %}
-                <option name="{{ code }}">
-                    {{ territory }}
-                </option>
+                <option name="{{ code }}" value="{{ territory }}"></option>
                 {% endfor %}
-            </select>
+            </datalist>
             <ul>
                 <li>News</li>
                 <li>Tables</li>
-                <li>Receive a free postcard</li>
+                <li><a href="{{ path('postcards') }}">Receive a free postcard</a></li>
                 <li>Contact</li>
             </ul>
         </div>
